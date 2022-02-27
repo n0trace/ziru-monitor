@@ -1,0 +1,29 @@
+ROSTemplateFormatVersion: "2015-09-01"
+Transform: "Aliyun::Serverless-2018-04-03"
+Resources:
+  ziruspider:
+    Type: "Aliyun::Serverless::Service"
+    Properties:
+      Policies:
+        - AliyunContainerRegistryReadOnlyAccess
+        - AliyunOTSFullAccess
+        - AliyunOSSFullAccess
+        - AliyunVPCFullAccess
+        - AliyunECSNetworkInterfaceManagementAccess
+      InternetAccess: true
+    monitor:
+      Type: "Aliyun::Serverless::Function"
+      Properties:
+        Description: "FC event function powered by custom-container and Python Flask"
+        Runtime: python3
+        Timeout: 600
+        CAPort: 9000
+        Handler: main.run
+        Initializer: main.initializer
+        InitializationTimeout: 30
+        MemorySize: 1024
+        CodeUri: ./ # Root directory for the function or the Dockerfile path
+        EnvironmentVariables:
+          OTS_ENDPOINT: https://ziru.cn-beijing.ots.aliyuncs.com
+          OTS_INSTANCE: ziru
+          TZ: Asia/Shanghai
