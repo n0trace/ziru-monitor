@@ -19,6 +19,7 @@ Resources:
         MemorySize: 1024
         InstanceConcurrency: 1
         EnvironmentVariables:
+          DING_TALK_SECRET: hello
           LD_LIBRARY_PATH: >-
             /code/.fun/root/usr/local/lib:/code/.fun/root/usr/lib:/code/.fun/root/usr/lib/x86_64-linux-gnu:/code/.fun/root/usr/lib64:/code/.fun/root/lib:/code/.fun/root/lib/x86_64-linux-gnu:/code/.fun/root/python/lib/python2.7/site-packages:/code/.fun/root/python/lib/python3.6/site-packages:/code:/code/lib:/usr/local/lib
           NODE_PATH: '/code/node_modules:/usr/local/lib/node_modules'
@@ -28,3 +29,17 @@ Resources:
             /code/.fun/root/usr/local/bin:/code/.fun/root/usr/local/sbin:/code/.fun/root/usr/bin:/code/.fun/root/usr/sbin:/code/.fun/root/sbin:/code/.fun/root/bin:/code:/code/node_modules/.bin:/code/.fun/python/bin:/code/.fun/node_modules/.bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/sbin:/bin
           PYTHONUSERBASE: /code/.fun/python
           TZ: Asia/Shanghai
+      Events:
+        job1:
+          Type: Timer
+          Properties:
+            Qualifier: LATEST
+            Payload: |-
+              {
+                  "otsEndpoint":"https://ziru.cn-beijing.ots.aliyuncs.com",
+                  "otsInstance":"ziru",
+                  "dingTalkSecret":"SECedd890559ce5a291c50f3db87e3ae27ca4c70a37e2b2eb61ccd62bf064d9b9be",
+                  "dingTalkAccessToken":"0dea6c92c0d342afc4ac423337c3b288cb5d3b8538a10a1cb6f3c15736acdfb6"
+              }
+            CronExpression: '@every 1m'
+            Enable: true

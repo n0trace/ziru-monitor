@@ -45,12 +45,16 @@ def run(event, context):
     settings.set("ACCESS_KEY_ID", access_key_id)
     settings.set("ACCESS_KEY_SECRET", access_key_secret)
     settings.set("SECURITY_TOKEN", security_token)
+    evt = None
     if "triggerName" in json.loads(event):
         evt = json.loads(json.loads(event)["payload"])
     else:
         evt = json.loads(event)
-        settings.set("OTS_ENDPOINT", evt["otsEndpoint"])
-        settings.set("OTS_INSTANCE", evt["otsInstance"])
+    settings.set("OTS_ENDPOINT", evt["otsEndpoint"])
+    settings.set("OTS_INSTANCE", evt["otsInstance"])
+    settings.set("DING_TALK_SECRET", evt["dingTalkSecret"])
+    settings.set("DING_TALK_ACCESS_TOKEN", evt["dingTalkAccessToken"])
+
     configure_logging(install_root_handler=True)
     logging.disable(30)  # WARNING = 50
     run_spider(MonitorSpider, settings)

@@ -27,3 +27,4 @@ Resources:
           OTS_ENDPOINT: https://ziru.cn-beijing.ots.aliyuncs.com
           OTS_INSTANCE: ziru
           TZ: Asia/Shanghai
+          DING_TALK_SECRET: hello
