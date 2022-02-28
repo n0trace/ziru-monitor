@@ -40,7 +40,6 @@ def initializer(context):
 
 
 def run(event, context):
-    os.environ['TZ'] = 'Asia/Shanghai'
     global access_key_id, access_key_secret, security_token
     settings = get_project_settings()
     settings.set("ACCESS_KEY_ID", access_key_id)

@@ -10,12 +10,12 @@ Resources:
     monitor:
       Type: 'Aliyun::Serverless::Function'
       Properties:
-        Description: FC event function powered by custom-container and Python Flask
+        Description: 自如爬虫
         Initializer: main.initializer
         InitializationTimeout: 30
         Handler: main.run
         Runtime: python3
-        Timeout: 600
+        Timeout: 20
         MemorySize: 1024
         InstanceConcurrency: 1
         EnvironmentVariables:
