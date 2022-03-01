@@ -4,14 +4,16 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+import base64
+import hashlib
+import hmac
 import json
 import logging
 import os
+import re
 import time
-import hmac
-import hashlib
-import base64
 import urllib.parse
+
 import requests
 from tablestore import (Condition, OTSClient, OTSClientError, OTSServiceError,
                         Row, RowExistenceExpectation)
@@ -106,10 +108,11 @@ class ZiruspiderPipeline:
             print(e)
         for key in add_keys:
             item = self.items[key]
-            text = "#### 新增房源\n##### [{title}]({link})\n\n > {desc}\n\n![]({thumb})".format(
+            id = re.findall('\d+', item['link'])[0]
+            link = 'https://m.ziroom.com/bj/x/61990250.html?inv_no=' + id
+            text = "#### 新增房源\n##### [{title}]({link})\n\n {desc}\n\n![]({thumb})".format(
                 title=item['title'],
-                link=self.fix_url(item['link'].replace(
-                    'www.ziroom.com/x/', 'm.ziroom.com/bj/x/')) + "?inv_no=733998694",
+                link=link,
                 desc=item['desc'],
                 thumb=self.fix_url(item['thumb']))
 
@@ -134,7 +137,7 @@ class ZiruspiderPipeline:
                 headers=headers)
         for key in del_keys:
             item = self.last_items[key]
-            text = "#### 下架房源\n##### [{title}]({link})\n\n > {desc}\n\n![]({thumb})".format(
+            text = "#### 下架房源\n##### [{title}]({link})\n\n {desc}\n\n![]({thumb})".format(
                 title=item['title'],
                 link=self.fix_url(item['link'].replace(
                     'www.ziroom.com/x/', 'm.ziroom.com/bj/x/')) + "?inv_no=733998694",
