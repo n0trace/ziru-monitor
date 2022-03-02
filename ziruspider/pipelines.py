@@ -103,8 +103,7 @@ class ZiruspiderPipeline:
             print(e)
         for key in add_keys:
             item = self.items[key]
-            id = re.findall('\d+', item['link'])[0]
-            link = 'https://m.ziroom.com/bj/x/61990250.html?inv_no=' + id
+            link = item['link']
             text = "#### 新增房源\n##### [{title}]({link})\n\n {desc}\n\n![]({thumb})".format(
                 title=item['title'],
                 link=link,
