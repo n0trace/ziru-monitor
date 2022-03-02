@@ -40,5 +40,5 @@ Resources:
                   "dingTalkSecret":"SECedd890559ce5a291c50f3db87e3ae27ca4c70a37e2b2eb61ccd62bf064d9b9be",
                   "dingTalkAccessToken":"0dea6c92c0d342afc4ac423337c3b288cb5d3b8538a10a1cb6f3c15736acdfb6"
               }
-            CronExpression: "0 */20 8-21 * * *"
+            CronExpression: 0 */20 8-23 * * *
             Enable: true

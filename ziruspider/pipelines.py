@@ -75,11 +75,6 @@ class ZiruspiderPipeline:
     def from_crawler(cls, crawler):
         return cls.from_settings(crawler.settings)
 
-    def fix_url(self, url):
-        if url.startswith('//'):
-            return "https:" + url
-        return url
-
     def sign(self, secret):
         timestamp = str(round(time.time() * 1000))
         secret_enc = secret.encode('utf-8')
@@ -114,7 +109,7 @@ class ZiruspiderPipeline:
                 title=item['title'],
                 link=link,
                 desc=item['desc'],
-                thumb=self.fix_url(item['thumb']))
+                thumb=item['thumb'])
 
             data = {
                 "msgtype": "markdown",
@@ -135,14 +130,14 @@ class ZiruspiderPipeline:
             r = requests.post(
                 url, data=json.dumps(data),
                 headers=headers)
+            print(r.text)
         for key in del_keys:
             item = self.last_items[key]
             text = "#### 下架房源\n##### [{title}]({link})\n\n {desc}\n\n![]({thumb})".format(
                 title=item['title'],
-                link=self.fix_url(item['link'].replace(
-                    'www.ziroom.com/x/', 'm.ziroom.com/bj/x/')) + "?inv_no=733998694",
+                link=item['link'],
                 desc=item['desc'],
-                thumb=self.fix_url(item['thumb']))
+                thumb=item['thumb'])
 
             data = {
                 "msgtype": "markdown",
@@ -163,3 +158,4 @@ class ZiruspiderPipeline:
             r = requests.post(
                 url, data=json.dumps(data),
                 headers=headers)
+            print(r.text)
